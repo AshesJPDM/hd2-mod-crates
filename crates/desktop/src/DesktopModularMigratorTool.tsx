@@ -211,7 +211,7 @@ export function DesktopModularMigratorTool() {
         },
       );
 
-      const result = await waitForDesktopTask(task);
+      const result = await waitForDesktopTask(task, undefined);
       setSummary(result);
       toast.success("多部件护甲迁移成功！已生成Arsenal专用Mod包。");
     } catch (err) {
@@ -551,14 +551,14 @@ export function DesktopModularMigratorTool() {
               </thead>
               <tbody>
                 {mappings.map((m) => (
-                  <tr key={m.slot_key} className="border-t border-hd2-border/40 hover:bg-white/5">
-                    <td className="p-2 font-semibold text-hd2-yellow">{m.slot_key}</td>
-                    <td className="p-2 font-mono text-hd2-muted">{m.source_unit_hex}</td>
-                    <td className="p-2 font-mono text-emerald-400">{m.target_unit_hex}</td>
+                  <tr key={m.slotKey} className="border-t border-hd2-border/40 hover:bg-white/5">
+                    <td className="p-2 font-semibold text-hd2-yellow">{m.slotKey}</td>
+                    <td className="p-2 font-mono text-hd2-muted">{m.sourceUnitHex}</td>
+                    <td className="p-2 font-mono text-emerald-400">{m.targetUnitHex}</td>
                     <td className="p-2">
-                      {m.is_polluted ? (
-                        <span className="text-amber-400" title={`共用护甲: ${m.polluted_by.join(", ")}`}>
-                          ⚠️ 共用部件 (与 {m.polluted_by[0]} 等复用)
+                      {m.isPolluted ? (
+                        <span className="text-amber-400" title={`共用护甲: ${m.pollutedBy.join(", ")}`}>
+                          ⚠️ 共用部件 (与 {m.pollutedBy[0]} 等复用)
                         </span>
                       ) : (
                         <span className="text-emerald-400">🟢 独立插槽 (无污染)</span>
@@ -616,25 +616,25 @@ export function DesktopModularMigratorTool() {
             <div className="mt-2 grid grid-cols-1 gap-2 text-xs sm:grid-cols-3">
               <div>
                 <span className="text-hd2-muted">已处理文件数: </span>
-                <span className="font-semibold text-hd2-text">{summary.total_files_copied}</span>
+                <span className="font-semibold text-hd2-text">{summary.totalFilesCopied}</span>
               </div>
               <div>
                 <span className="text-hd2-muted">总哈希替换次数: </span>
-                <span className="font-semibold text-hd2-yellow">{summary.total_substitutions}</span>
+                <span className="font-semibold text-hd2-yellow">{summary.totalSubstitutions}</span>
               </div>
               <div>
                 <span className="text-hd2-muted">已迁移部件数: </span>
-                <span className="font-semibold text-emerald-400">{summary.components_migrated.length} 个</span>
+                <span className="font-semibold text-emerald-400">{summary.componentsMigrated.length} 个</span>
               </div>
             </div>
             <p className="mt-3 break-all font-mono text-xs text-hd2-muted">
-              输出文件: {summary.output_path}
+              输出文件: {summary.outputPath}
             </p>
             <div className="mt-3">
               <Button
                 variant="outlined"
                 size="small"
-                onClick={() => revealItemInDir(summary.output_path)}
+                onClick={() => revealItemInDir(summary.outputPath)}
               >
                 在文件资源管理器中定位输出文件
               </Button>

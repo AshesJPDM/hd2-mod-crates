@@ -240,8 +240,8 @@ function MigratorAppContent<PatchSource, GameDataSource>(
     ? <props.MergeTool />
     : activeToolMode === "head-merge"
       ? <props.HeadMergeTool />
-      : activeToolMode === "modular-migrate" && props.ModularMigrateTool
-        ? <props.ModularMigrateTool />
+      : activeToolMode === "modular-migrate"
+        ? (props.ModularMigrateTool ? <props.ModularMigrateTool /> : null)
         : (
         <>
           <SetupPanels
