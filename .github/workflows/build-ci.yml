@@ -1,0 +1,56 @@
+name: Build Desktop CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - "feature/*"
+      - "feature/**"
+  workflow_dispatch:
+
+concurrency:
+  group: desktop-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Windows x64 Executable
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v7
+
+      - name: Install Rust toolchain
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: desktop-x86_64-pc-windows-msvc
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+
+      - name: Install JavaScript dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Test shared Rust core
+        run: cargo test -p hd2-migrator-core --lib
+
+      - name: Build release desktop executable
+        run: bun run desktop:build
+
+      - name: Upload Windows Executable Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: hd2_migrator_desktop-windows-x64
+          path: target/release/hd2_migrator_desktop.exe
+          if-no-files-found: error

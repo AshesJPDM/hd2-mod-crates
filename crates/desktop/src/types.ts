@@ -94,3 +94,70 @@ export interface AppUpdateMetadata {
   target: string;
   version: string;
 }
+
+export interface ModularComponentInfo {
+  id: string;
+  name: string;
+  patchFiles: string[];
+  unitIds: string[];
+}
+
+export interface ModularModInspection {
+  modName: string;
+  author: string | null;
+  version: string | null;
+  detectedSourceArmor: string | null;
+  detectedSourceHelmet: string | null;
+  components: ModularComponentInfo[];
+  hasManifest: boolean;
+  hasMaterialPack: boolean;
+  materialPatchFiles: string[];
+}
+
+export interface ModularSlotMapping {
+  slotKey: string;
+  sourceUnitId: number;
+  sourceUnitHex: string;
+  targetUnitId: number;
+  targetUnitHex: string;
+  isPolluted: boolean;
+  pollutedBy: string[];
+}
+
+export interface ModularMigrateOptions {
+  targetArmorName: string;
+  targetHelmetName?: string | null;
+  selectedComponents: string[];
+  strategy: string;
+  customUnitMappings: Record<string, string>;
+  antiPollution: boolean;
+  outputModName?: string | null;
+}
+
+export interface ModularMigrationSummary {
+  outputPath: string;
+  totalFilesCopied: number;
+  totalSubstitutions: number;
+  componentsMigrated: string[];
+  warnings: string[];
+}
+
+export interface InspectModularModRequest {
+  modPath: string;
+  materialPackPath?: string | null;
+}
+
+export interface PreviewModularMappingsRequest {
+  sourceArmor: string;
+  targetArmor: string;
+  sourceHelmet?: string | null;
+  targetHelmet?: string | null;
+  customOverrides: Record<string, string>;
+}
+
+export interface ModularMigrateRequest {
+  modPath: string;
+  materialPackPath?: string | null;
+  outputPath: string;
+  options: ModularMigrateOptions;
+}

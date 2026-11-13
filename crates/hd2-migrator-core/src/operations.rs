@@ -6,6 +6,7 @@ pub mod equipment_graph;
 pub mod head_armor_merge;
 pub mod mapping_preview;
 pub mod migration;
+pub mod modular_migration;
 pub mod patch_merge;
 pub mod repatch;
 pub mod unified_migration;
@@ -59,4 +60,10 @@ pub use unified_migration::{
     WebUnifiedMigrateOptions, WebUnitBehaviorOptions, WebUnitConflictResolution,
     WebUnitExportOverride, WebUnitMappingBehaviorKey, migrate_variants_to_patch_sink,
     migrate_variants_to_sink, migrate_variants_with_source,
+};
+pub use modular_migration::{
+    build_slot_mappings, build_unit_pollution_index, detect_source_armor,
+    extract_unit_ids_from_toc_buffer, generate_uuid_v4, get_known_tg_to_cw_mappings,
+    replace_unit_hashes, update_manifest_json, ModularComponentInfo, ModularMigrateOptions,
+    ModularMigrationSummary, ModularModInspection, ModularSlotMapping,
 };

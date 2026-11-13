@@ -3,6 +3,7 @@ import { MigratorApp, type PlatformViewExtras, type ToolMode } from "@hd2-mod-to
 import { AppUpdateButton, AppUpdateDialog } from "./AppUpdateDialog";
 import { DesktopSharedHeadMergeTool } from "./DesktopSharedHeadMergeTool";
 import { DesktopSharedManualMergeTool } from "./DesktopSharedManualMergeTool";
+import { DesktopModularMigratorTool } from "./DesktopModularMigratorTool";
 import { DesktopSetupPanels, desktopPlatform } from "./desktopPlatform";
 import { useAppUpdate } from "./useAppUpdate";
 
@@ -20,6 +21,7 @@ export default function App() {
     <MigratorApp
       HeadMergeTool={DesktopSharedHeadMergeTool}
       MergeTool={DesktopSharedManualMergeTool}
+      ModularMigrateTool={DesktopModularMigratorTool}
       SetupPanels={DesktopSetupPanels}
       extras={extras}
       layout="desktop"

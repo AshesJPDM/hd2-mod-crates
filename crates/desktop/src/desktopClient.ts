@@ -18,6 +18,12 @@ import type {
   PatchMergeRequest,
   PatchMergeSummary,
   UnitRepatchSummary,
+  InspectModularModRequest,
+  PreviewModularMappingsRequest,
+  ModularMigrateRequest,
+  ModularModInspection,
+  ModularSlotMapping,
+  ModularMigrationSummary,
 } from "./types";
 
 export function checkAppUpdate(): Promise<AppUpdateMetadata | null> {
@@ -116,6 +122,40 @@ export function startPatchMerge(
   onProgress: (event: MigrationProgressEvent) => void,
 ): DesktopTask<PatchMergeSummary> {
   return startTask("merge_patches", request, onProgress);
+}
+
+export function inspectModularMod(
+  request: InspectModularModRequest,
+): Promise<ModularModInspection> {
+  return invoke("inspect_modular_mod", { request });
+}
+
+export function previewModularMappings(
+  request: PreviewModularMappingsRequest,
+): Promise<ModularSlotMapping[]> {
+  return invoke("preview_modular_mappings", { request });
+}
+
+export function startModularMigration(
+  request: ModularMigrateRequest,
+  onProgress: (event: MigrationProgressEvent) => void,
+): DesktopTask<ModularMigrationSummary> {
+  return startTask("migrate_modular_mod", request, onProgress);
+}
+
+export async function chooseModularFolder(): Promise<string | null> {
+  const selected = await open({ directory: true, multiple: false, title: "选择Mod文件夹" });
+  return typeof selected === "string" ? selected : null;
+}
+
+export async function chooseModularZip(): Promise<string | null> {
+  const selected = await open({
+    directory: false,
+    multiple: false,
+    title: "选择Mod压缩包 (.zip)",
+    filters: [{ name: "ZIP archive", extensions: ["zip"] }],
+  });
+  return typeof selected === "string" ? selected : null;
 }
 
 function startTask<TRequest, TResult>(

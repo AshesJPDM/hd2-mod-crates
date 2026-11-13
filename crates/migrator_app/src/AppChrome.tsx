@@ -103,7 +103,11 @@ function ToolNavigation(props: AppChromeProps) {
       <AdvancedToolsMenu
         active={props.toolMode}
         disabled={props.navigationDisabled}
-        items={[{ mode: "merge", label: t("mode.merge") }, { mode: "head-merge", label: t("mode.headMerge") }]}
+        items={[
+          { mode: "modular-migrate", label: t("mode.modularMigrate") },
+          { mode: "merge", label: t("mode.merge") },
+          { mode: "head-merge", label: t("mode.headMerge") }
+        ]}
         onSelect={(mode) => props.onToolModeChange(mode as ToolMode)}
       />
     </ToolModeNav>

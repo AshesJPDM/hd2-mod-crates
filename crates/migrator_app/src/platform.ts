@@ -14,7 +14,7 @@ import type {
   UnifiedMigrateOptions,
 } from "@hd2-mod-tools/migrator-ui";
 
-export type ToolMode = "migrate" | "repatch" | "merge" | "head-merge";
+export type ToolMode = "migrate" | "repatch" | "merge" | "head-merge" | "modular-migrate";
 
 export interface SelectedPatch<PatchSource> {
   byteLength: number;
@@ -121,6 +121,7 @@ export interface PlatformViewExtras {
 export interface MigratorAppProps<PatchSource, GameDataSource> {
   HeadMergeTool: ComponentType;
   MergeTool: ComponentType;
+  ModularMigrateTool?: ComponentType;
   SetupPanels: ComponentType<SetupPanelsProps<PatchSource, GameDataSource>>;
   extras?: PlatformViewExtras;
   layout: "web" | "desktop";

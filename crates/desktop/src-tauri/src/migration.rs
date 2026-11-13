@@ -1,3 +1,4 @@
+pub mod modular;
 mod output;
 mod patch;
 
@@ -249,6 +250,50 @@ pub async fn merge_patches(
     .await
     .map_err(|error| CommandError::from_display("task.joinFailed", error))?;
     task_result(result, &cancellation, "merge.failed")
+}
+
+#[tauri::command]
+pub async fn inspect_modular_mod(
+    request: modular::InspectModularModRequest,
+) -> Result<operations::ModularModInspection, CommandError> {
+    tauri::async_runtime::spawn_blocking(move || {
+        modular::inspect_modular_mod_blocking(request)
+    })
+    .await
+    .map_err(|error| CommandError::from_display("task.joinFailed", error))?
+    .map_err(|error| CommandError::new("inspectModular.failed", error))
+}
+
+#[tauri::command]
+pub async fn preview_modular_mappings(
+    request: modular::PreviewModularMappingsRequest,
+) -> Result<Vec<operations::ModularSlotMapping>, CommandError> {
+    tauri::async_runtime::spawn_blocking(move || {
+        modular::preview_modular_mappings_blocking(request)
+    })
+    .await
+    .map_err(|error| CommandError::from_display("task.joinFailed", error))?
+    .map_err(|error| CommandError::new("previewModular.failed", error))
+}
+
+#[tauri::command]
+pub async fn migrate_modular_mod(
+    request: modular::ModularMigrateRequest,
+    task_id: String,
+    on_progress: Channel<MigrationProgressEvent>,
+    tasks: State<'_, TaskRegistry>,
+) -> Result<operations::ModularMigrationSummary, CommandError> {
+    let lease = tasks.register(task_id)?;
+    let cancellation = lease.cancellation();
+    let task_cancellation = Arc::clone(&cancellation);
+    let result = tauri::async_runtime::spawn_blocking(move || {
+        let _lease = lease;
+        let progress = DesktopProgress::new(on_progress, task_cancellation);
+        modular::migrate_modular_mod_blocking(request, Some(&progress))
+    })
+    .await
+    .map_err(|error| CommandError::from_display("task.joinFailed", error))?;
+    task_result(result, &cancellation, "modularMigrate.failed")
 }
 
 #[tauri::command]
