@@ -44,7 +44,7 @@ impl HelmetMappingTable {
             .copied()
     }
 
-    pub(crate) fn entries(&self) -> impl Iterator<Item = (&str, u64)> {
+    pub fn entries(&self) -> impl Iterator<Item = (&str, u64)> {
         self.helmets.iter().filter_map(|(name, mapping)| {
             mapping
                 .parts

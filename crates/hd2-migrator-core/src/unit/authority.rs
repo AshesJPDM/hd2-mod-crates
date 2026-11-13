@@ -60,7 +60,7 @@ impl ArmorMappingTable {
         self.armors.get(name)
     }
 
-    pub(crate) fn entries(&self) -> impl Iterator<Item = (&str, &ArmorPartMap)> {
+    pub fn entries(&self) -> impl Iterator<Item = (&str, &ArmorPartMap)> {
         self.armors
             .iter()
             .map(|(name, parts)| (name.as_str(), parts))
@@ -93,7 +93,7 @@ impl ArmorPartMap {
         self.parts.values().copied().collect()
     }
 
-    pub(crate) fn parts(&self) -> &HashMap<String, u64> {
+    pub fn parts(&self) -> &HashMap<String, u64> {
         &self.parts
     }
 

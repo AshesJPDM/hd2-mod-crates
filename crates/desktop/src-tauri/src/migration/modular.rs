@@ -1,6 +1,5 @@
 use super::output::{create_zip, finish_zip, write_zip_entry_with_progress, OutputProgress};
 use super::DesktopProgress;
-use crate::command_error::CommandError;
 use hd2_migrator_core::operations::modular_migration::{
     build_slot_mappings, build_unit_pollution_index, detect_source_armor,
     extract_unit_ids_from_toc_buffer, replace_unit_hashes, update_manifest_json,
@@ -9,7 +8,7 @@ use hd2_migrator_core::operations::modular_migration::{
 };
 use hd2_migrator_core::unit::authority::ArmorMappingTable;
 use hd2_migrator_core::unit::helmet_authority::HelmetMappingTable;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::io::Read;
