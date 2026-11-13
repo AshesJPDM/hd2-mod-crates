@@ -211,7 +211,8 @@ export function DesktopModularMigratorTool() {
         },
       );
 
-      const result = await waitForDesktopTask(task, undefined);
+      const abortController = new AbortController();
+      const result = await waitForDesktopTask(task, abortController.signal);
       setSummary(result);
       toast.success("多部件护甲迁移成功！已生成Arsenal专用Mod包。");
     } catch (err) {
