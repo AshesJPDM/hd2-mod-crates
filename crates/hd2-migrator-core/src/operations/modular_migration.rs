@@ -222,7 +222,7 @@ pub fn build_slot_mappings(
     // General Case: Core 10 Parts from ArmorMappingTable
     if let (Some(src_parts), Some(dst_parts)) = (armor_table.armor(source_armor), armor_table.armor(target_armor)) {
         for (part_label, &src_id) in src_parts.parts() {
-            if let Some(&dst_id) = dst_parts.get(part_label) {
+            if let Some(dst_id) = dst_parts.get(part_label) {
                 let src_hex = format!("0x{:016X}", src_id);
                 let dst_id_final = if let Some(custom_dst_hex) = custom_overrides.get(&src_hex) {
                     u64::from_str_radix(custom_dst_hex.trim_start_matches("0x"), 16).unwrap_or(dst_id)
